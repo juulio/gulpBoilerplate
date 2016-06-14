@@ -1,5 +1,3 @@
-# Possible - Costa Rica
-
 ## Gulp Boilerplate
 
 * This project is intended to be used as a template to work with GULP.

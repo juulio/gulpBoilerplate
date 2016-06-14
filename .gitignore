@@ -1,0 +1,13 @@
+# Node Modules
+node_modules
+
+# Junk Files
+*.DS_Store
+[Tt]humbs.db
+
+# Sass Cache files
+**/.sass-cache
+**/.sass-cache/*
+
+# dist production folder
+dist
