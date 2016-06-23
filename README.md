@@ -13,9 +13,6 @@ CSS and javascript will not be minified.
 4. To build the project (dist) type `gulp build`.
 CSS and javascript will be minified.
 
-4. To build the project (dist) type `gulp build`.
-CSS and javascript will be minified.
-
 ### gulpfile tasks
 * **sass**: takes all scss files on the app/scss folder and creates the app/css/styles.css file.
 * **minify-css**: minifies the app/css/styles.css file.
