@@ -74,7 +74,7 @@ return cache.clearAll(callback)
 // build task for production environment
 gulp.task('build', function (callback) {
   runSequence('clean:dist',
-    ['sass', 'minify-css', 'useref', 'images'],
+    ['sass', 'minify-css', 'useref'],
     callback
   )
 });
