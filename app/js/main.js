@@ -10,7 +10,7 @@
  * @namespace
  */
 
-(function (context, $) {
+(function (context) {
 
 	'use strict';
 
@@ -21,6 +21,6 @@
     function init() {
     }
 
-    $(init);
+    init();
 
-}(project_name, jQuery));
+}(project_name));
