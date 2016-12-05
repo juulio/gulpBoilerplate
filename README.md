@@ -3,6 +3,8 @@
 * This project is intended to be used as a template to work with GULP.
 
 ### installation
+0. Before moving on, make sure you have node.js, npm and gulp installed.
+
 1. Clone this project into the desired folder
 
 2. On a terminal, go into the project's folder and type `npm install`.  Make sure there's a package.json file on this folder. After this command is properly finished, there will be a new 'node_modules' folder.

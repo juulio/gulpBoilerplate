@@ -68,13 +68,19 @@ gulp.task('clean:dist', function() {
 
 // cache clear task
 gulp.task('cache:clear', function (callback) {
-return cache.clearAll(callback)
+    return cache.clearAll(callback)
+});
+
+// copy the images folder to the dist folder
+gulp.task('copyImagesFolder', function(){
+    return gulp.src('app/img/**/*')
+    .pipe(gulp.dest('dist/img'));
 });
 
 // build task for production environment
 gulp.task('build', function (callback) {
   runSequence('clean:dist',
-    ['sass', 'minify-css', 'useref'],
+    ['sass', 'minify-css', 'copyImagesFolder', 'useref'],
     callback
   )
 });
