@@ -1,86 +1,110 @@
-//all plugins requiered
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var browserSync = require('browser-sync').create();
-var useref = require('gulp-useref');
-var uglify = require('gulp-uglify');
-var gulpIf = require('gulp-if');
-var cache = require('gulp-cache');
-var del = require('del');
-var runSequence = require('run-sequence');
-var cleanCSS = require('gulp-clean-css');
+/**
+ * Required plugins
+ */
+const gulp = require('gulp');
+const gulpif = require('gulp-if');
+const clean = require('gulp-clean');
+const sass = require('gulp-sass');
+const jshint = require('gulp-jshint');
+const useref = require('gulp-useref');
+const uglify = require('gulp-uglify');
+const inject = require('gulp-inject');
+const browserSync = require('browser-sync').create();
+const config = require('./config.json');
 
-// sass processing
+/**
+ * Sass processing
+ */
 gulp.task('sass', function() {
-  return gulp.src('app/scss/**/*.scss')
+  return gulp.src(config.app.sass.src)
     .pipe(sass())
-    .pipe(gulp.dest('app/css'))
+    .pipe(gulp.dest(config.app.sass.dest))
     .pipe(browserSync.reload({
       stream: true
     }))
 });
 
-// minify CSS files
+/**
+ * Minify CSS files
+ */
 gulp.task('minify-css', function() {
-  return gulp.src('app/css/*.css')
+  return gulp.src(config.app.css.src)
     .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('app/css'));
+    .pipe(gulp.dest(config.app.css.dest));
 });
 
-// watch project files and reload
+/**
+ * Inject javascript file references to index.html file
+ */
+gulp.task('index', function () {
+    // return gulp.src('./app/index.html')
+    return gulp.src(config.app.html.index)
+        .pipe(inject(gulp.src(['./app/js/vendor/**/*.js'], {read: false}), {relative: true}))
+        .pipe(gulp.dest('app/'));
+});
+
+/**
+ * Check javascript for syntax errors
+ */
+gulp.task('lint', function() {
+    return gulp.src('./app/js/**/*.js')
+        .pipe(jshint({esversion: 6}))
+        .pipe(jshint.reporter('default', { verbose: true }));
+});
+
+/**
+ * Watch project files and reload the screen
+ * Reloads the browser whenever HTML or JS files change
+ */
 gulp.task('watch', function (){
-  gulp.watch('app/scss/**/*.scss', ['sass']);
-  // Reloads the browser whenever HTML or JS files change
-  gulp.watch('app/*.html', browserSync.reload);
-  gulp.watch('app/js/**/*.js', browserSync.reload);
-})
-
-
-// default task for dev environment
-gulp.task('default', function (callback) {
-  runSequence(['sass','browserSync', 'watch'],
-    callback
-  )
-})
-
-// live reload dev environment
-gulp.task('browserSync', function() {
-  browserSync.init({
-    server: {
-      baseDir: 'app'
-    },
-  })
+    gulp.watch(config.app.sass.src, gulp.series('sass'));
+    gulp.watch(config.app.html.src, gulp.series(browserSync.reload));
+    gulp.watch(config.app.js.src).on('change', gulp.series('lint', browserSync.reload));
 });
 
-// js and css concatenation and minification
+/**
+ * Automatic Browser reload
+ */
+gulp.task('browserSync', function(callback) {
+    browserSync.init({
+        server: {
+          baseDir: config.app.baseDir
+        }
+    }, callback)
+});
+
+/**
+ * JS concatenation and minification
+ */
 gulp.task('useref', function(){
-  return gulp.src('app/*.html')
-    .pipe(useref())
-    // Minifies only if it's a JavaScript file
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulp.dest('dist'))
+    return gulp.src(config.app.html.src)
+        .pipe(useref())
+        .pipe(gulpif('*.js', uglify()))
+        .pipe(gulp.dest('dist'))
 });
 
-// clean production envirnomnet
-gulp.task('clean:dist', function() {
-  return del.sync('dist');
+/**
+ * Clean production dist folder
+ */
+gulp.task('clean:dist', function () {
+    return gulp.src('dist/*', {read: false})
+        .pipe(clean());
 });
 
-// cache clear task
-gulp.task('cache:clear', function (callback) {
-    return cache.clearAll(callback)
+/**
+ * Copy the required assets folders to the dist folder
+ */
+gulp.task('copy-assets-folder', function(){
+    return gulp.src(config.app.assets.src)
+        .pipe(gulp.dest(config.app.assets.dest));
 });
 
-// copy the images folder to the dist folder
-gulp.task('copyImagesFolder', function(){
-    return gulp.src('app/img/**/*')
-    .pipe(gulp.dest('dist/img'));
-});
+/**
+ * Default task for development environment
+ */
+gulp.task('default', gulp.series(gulp.parallel('sass', 'index', 'lint'), 'browserSync',  'watch'));
 
-// build task for production environment
-gulp.task('build', function (callback) {
-  runSequence('clean:dist',
-    ['sass', 'minify-css', 'copyImagesFolder', 'useref'],
-    callback
-  )
-});
+/**
+ * Build task for production environment
+ */
+gulp.task('build', gulp.series('clean:dist', gulp.parallel('sass', 'copy-assets-folder', 'useref')));
