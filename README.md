@@ -1,18 +1,26 @@
 ## Gulp Boilerplate
 
-* This project is intended to be used as a template to work with GULP.
+* This project is a GULP template for Front End Projects.
 
 ### installation
-0. Before moving on, make sure you have node.js, npm and gulp installed.
 
-1. Clone this project into the desired folder
+1. Make sure you have npm and Node.js installed on your local machine.  
+To install Node and NPM go to [https://nodejs.org/en/download/](https://nodejs.org/en/download/)  
+To check your current version, on a terminal type:  
+node -v  
+npm -v  
+![alt text](http://git.sjo.possible.com/julio.delvalle/gulp-boilerplate/raw/master/app/img/nodeNpmGulpversion.png "Node Npm Gulp Version")
 
-2. On a terminal, go into the project's folder and type `npm install`.  Make sure there's a package.json file on this folder. After this command is properly finished, there will be a new 'node_modules' folder.
+2. On a terminal type **git clone git@git.sjo.possible.com:julio.delvalle/gulp-boilerplate.git** to clone the project into the desired folder.
 
-3. To run the project type `gulp`.
+3. Go into the recently cloned project folder, Make sure there's a package.json file and type **npm install**.  
+After this command is properly finished, there will be a new 'node_modules' folder.
+
+4. To run the project type **gulp**.
 CSS and javascript will not be minified.
 
-4. To build the project (dist) type `gulp build`.
+5. To build the project type **gulp build**.  
+A **dist** folder will be created.  
 CSS and javascript will be minified.
 
 ### gulpfile tasks
@@ -22,6 +30,7 @@ CSS and javascript will be minified.
 * **useref**: concatenates referenced non-optimized js and css files. Uses gulpIf and uglify to minify javascript files.
 * **clean**:dist: cleans the dist production environment.
 * **cache**:clear: cache clear task.
+* **copy-images-folder**: copys the images folder to the dist folder
 * **watch**: watches the sass and javascript files and reloads the browser.
 * **default**: runs this task sequence in the provided order: sass, browserSync, watch.
 
