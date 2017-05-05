@@ -92,11 +92,11 @@ gulp.task('clean:dist', function () {
 });
 
 /**
- * Copy the required assets folders to the dist folder
+ * Copy the required img folders to the dist folder
  */
-gulp.task('copy-assets-folder', function(){
-    return gulp.src(config.app.assets.src)
-        .pipe(gulp.dest(config.app.assets.dest));
+gulp.task('copy-img-folder', function(){
+    return gulp.src(config.app.img.src)
+        .pipe(gulp.dest(config.app.img.dest));
 });
 
 /**
@@ -107,4 +107,4 @@ gulp.task('default', gulp.series(gulp.parallel('sass', 'index', 'lint'), 'browse
 /**
  * Build task for production environment
  */
-gulp.task('build', gulp.series('clean:dist', gulp.parallel('sass', 'copy-assets-folder', 'useref')));
+gulp.task('build', gulp.series('clean:dist', gulp.parallel('sass', 'copy-img-folder', 'useref')));
