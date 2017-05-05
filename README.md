@@ -9,9 +9,9 @@ To install Node and NPM go to [https://nodejs.org/en/download/](https://nodejs.o
 To check your current version, on a terminal type:  
 node -v  
 npm -v  
-![alt text](http://github.com/juulio/gulp-boilerplate/raw/master/app/img/nodeNpmGulpversion.png "Node Npm Gulp Version")
+![alt text](http://github.com/juulio/gulpBoilerplate/raw/master/app/img/nodeNpmGulpversion.png "Node Npm Gulp Version")
 
-2. On a terminal type **git clone git@github.com:juulio/gulp-boilerplate.git** to clone the project into the desired folder.
+2. On a terminal type **git clone git@github.com:juulio/gulpBoilerplate.git** to clone the project into the desired folder.
 
 3. Go into the recently cloned project folder, Make sure there's a package.json file and type **npm install**.  
 After this command is properly finished, there will be a new 'node_modules' folder.
