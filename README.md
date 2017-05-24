@@ -1,6 +1,6 @@
 ## Gulp Boilerplate
 
-* This project is a GULP template for Front End Projects.
+* This project is a THREEjs - GULP template.
 
 ### installation
 
