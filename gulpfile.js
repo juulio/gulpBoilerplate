@@ -35,11 +35,11 @@ gulp.task('minify-css', function() {
 
 /**
  * Inject javascript file references to index.html file
+ * THREE.js goes first, so other js files won't break
  */
 gulp.task('index', function () {
-    // return gulp.src('./app/index.html')
     return gulp.src(config.app.html.index)
-        .pipe(inject(gulp.src(['./app/js/vendor/**/*.js'], {read: false}), {relative: true}))
+        .pipe(inject(gulp.src(['./app/js/vendor/three.min.js','./app/js/vendor/**/*.js'], {read: false}), {relative: true}))
         .pipe(gulp.dest('app/'));
 });
 
@@ -47,7 +47,7 @@ gulp.task('index', function () {
  * Check javascript for syntax errors
  */
 gulp.task('lint', function() {
-    return gulp.src('./app/js/**/*.js')
+    return gulp.src(['./app/js/**/*.js','!app/js/vendor/*.js'])
         .pipe(jshint({esversion: 6}))
         .pipe(jshint.reporter('default', { verbose: true }));
 });
