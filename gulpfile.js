@@ -107,4 +107,4 @@ gulp.task('default', gulp.series(gulp.parallel('sass', 'index', 'lint'), 'browse
 /**
  * Build task for production environment
  */
-gulp.task('build', gulp.series('clean:dist', gulp.parallel('sass', 'copy-assets-folder', 'useref')));
+gulp.task('build', gulp.series('clean:dist', gulp.parallel('copy-assets-folder', 'useref')));
