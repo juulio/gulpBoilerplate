@@ -14,10 +14,6 @@
 
 	'use strict';
 
-	var vars = {
-
-	};
-
     function init() {
     }
 

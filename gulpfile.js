@@ -7,7 +7,7 @@ const clean = require('gulp-clean');
 const sass = require('gulp-sass');
 const jshint = require('gulp-jshint');
 const useref = require('gulp-useref');
-const uglify = require('gulp-uglify');
+const babili = require("gulp-babili");
 const inject = require('gulp-inject');
 const browserSync = require('browser-sync').create();
 const config = require('./config.json');
@@ -35,9 +35,9 @@ gulp.task('minify-css', function() {
 
 /**
  * Inject javascript file references to index.html file
+ * THREE.js goes first, so other js files won't break
  */
 gulp.task('index', function () {
-    // return gulp.src('./app/index.html')
     return gulp.src(config.app.html.index)
         .pipe(inject(gulp.src(['./app/js/vendor/**/*.js'], {read: false}), {relative: true}))
         .pipe(gulp.dest('app/'));
@@ -47,7 +47,7 @@ gulp.task('index', function () {
  * Check javascript for syntax errors
  */
 gulp.task('lint', function() {
-    return gulp.src('./app/js/**/*.js')
+    return gulp.src(['./app/js/**/*.js','!app/js/vendor/*.js'])
         .pipe(jshint({esversion: 6}))
         .pipe(jshint.reporter('default', { verbose: true }));
 });
@@ -79,7 +79,7 @@ gulp.task('browserSync', function(callback) {
 gulp.task('useref', function(){
     return gulp.src(config.app.html.src)
         .pipe(useref())
-        .pipe(gulpif('*.js', uglify()))
+        .pipe(gulpif('*.js', babili()))
         .pipe(gulp.dest('dist'))
 });
 
@@ -92,11 +92,11 @@ gulp.task('clean:dist', function () {
 });
 
 /**
- * Copy the required img folders to the dist folder
+ * Copy the required assets folders to the dist folder
  */
-gulp.task('copy-img-folder', function(){
-    return gulp.src(config.app.img.src)
-        .pipe(gulp.dest(config.app.img.dest));
+gulp.task('copy-assets-folder', function(){
+    return gulp.src(config.app.assets.src)
+        .pipe(gulp.dest(config.app.assets.dest));
 });
 
 /**
@@ -107,4 +107,4 @@ gulp.task('default', gulp.series(gulp.parallel('sass', 'index', 'lint'), 'browse
 /**
  * Build task for production environment
  */
-gulp.task('build', gulp.series('clean:dist', gulp.parallel('sass', 'copy-img-folder', 'useref')));
+gulp.task('build', gulp.series('clean:dist', gulp.parallel('copy-assets-folder', 'useref')));
