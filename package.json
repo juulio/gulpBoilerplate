@@ -17,6 +17,7 @@
     "gulp-if": "^2.0.0",
     "gulp-inject": "^4.2.0",
     "gulp-jshint": "^2.0.4",
+    "gulp-sass": "^2.2.0",
     "gulp-useref": "^3.0.7",
     "gulp-util": "^3.0.7",
     "jshint": "^2.9.4"
