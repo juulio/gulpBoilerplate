@@ -5,9 +5,9 @@
         "js" : {
             "src" : "app/js/**/*.js"
         },
-        "img" : {
-            "src" : "app/img/**/*",
-            "dest" : "dist/img/"
+        "assets" : {
+            "src" : "app/assets/**/*",
+            "dest" : "dist/assets/"
         },
         "html" : {
             "index" : "./app/index.html",
